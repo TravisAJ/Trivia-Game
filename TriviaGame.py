@@ -5,8 +5,10 @@
 #------------------ IMPORTS ------------------
 import pickle as pk
 import tkinter as tk
+import random as rd
 from tkinter.scrolledtext import ScrolledText as Scr
 from tkinter import messagebox
+
 
 '''Trivia Game Program'''
 
@@ -89,15 +91,21 @@ class SelectMenu(Screen):
         self.btn_random.grid(row = 3, column = 0, columnspan = 2, sticky = "news")
         
         self.btn_back = tk.Button(self, bg = "red", text = "BACK", font = BUTTON_FONT, command = self.go_back)
-        self.btn_back.grid(row = 4, column = 0, columnspan = 2, sticky = "news")        
+        self.btn_back.grid(row = 4, column = 0, columnspan = 2, sticky = "news")
         
     def go_history(self):
         if Screen.option == "play":
             popup = tk.Tk()
             popup.title("Question 1")
-            frm_question = QuestionMenu(popup, "history")
+            frm_question = QuestionMenu(popup, "History")
             frm_question.grid(row = 0, column = 0)
+            
         elif Screen.option == "score":
+            screens[2].scr_scores.delete('0.0', 'end')
+            for i in range(len(scores['History'])):
+                msg = str(i+1) + '. ' + scores['History'][i][0] + ': ' + scores['History'][i][1] + "\n" 
+                screens[2].scr_scores.insert('insert', msg)
+                
             Screen.current = 2
             Screen.switch_frame()
         else:
@@ -107,9 +115,15 @@ class SelectMenu(Screen):
         if Screen.option == "play":
             popup = tk.Tk()
             popup.title("Question 1")
-            frm_question = QuestionMenu(popup, "geography")
+            frm_question = QuestionMenu(popup, "Geography")
             frm_question.grid(row = 0, column = 0)
+            
         elif Screen.option == "score":
+            screens[2].scr_scores.delete('0.0', 'end')
+            for i in range(len(scores['Geography'])):
+                msg = str(i+1) + '. ' + scores['Geography'][i][0] + ': ' + scores['Geography'][i][1]  + "\n" 
+                screens[2].scr_scores.insert('insert', msg)            
+            
             Screen.current = 2
             Screen.switch_frame()
         else:
@@ -119,9 +133,14 @@ class SelectMenu(Screen):
         if Screen.option == "play":
             popup = tk.Tk()
             popup.title("Question 1")
-            frm_question = QuestionMenu(popup, "music")
+            frm_question = QuestionMenu(popup, "Music")
             frm_question.grid(row = 0, column = 0)
         elif Screen.option == "score":
+            screens[2].scr_scores.delete('0.0', 'end')
+            for i in range(len(scores['Music'])):
+                msg = str(i+1) + '. ' + scores['Music'][i][0] + ': ' + scores['Music'][i][1]  +'\n'
+                screens[2].scr_scores.insert('insert', msg)
+                
             Screen.current = 2
             Screen.switch_frame()
         else:
@@ -131,10 +150,15 @@ class SelectMenu(Screen):
         if Screen.option == "play":
             popup = tk.Tk()
             popup.title("Question 1")
-            frm_question = QuestionMenu(popup, "gaming")
+            frm_question = QuestionMenu(popup, "Gaming")
             frm_question.grid(row = 0, column = 0)
         elif Screen.option == "score":
-            Screen.current = 2
+            screens[2].scr_scores.delete('0.0', 'end')
+            for i in range(len(scores['Gaming'])):
+                msg = str(i+1) + '. ' + scores['Gaming'][i][0] + ': ' + scores['Gaming'][i][1]  + '\n'
+                screens[2].scr_scores.insert('insert', msg)
+           
+            Screen.current = 2    
             Screen.switch_frame()
         else:
             messagebox.showerror("ERROR", "Something went wrong")
@@ -143,9 +167,14 @@ class SelectMenu(Screen):
         if Screen.option == "play":
             popup = tk.Tk()
             popup.title("Question 1")
-            frm_question = QuestionMenu(popup, "random")
+            frm_question = QuestionMenu(popup, "Random")
             frm_question.grid(row = 0, column = 0)
         elif Screen.option == "score":
+            screens[2].scr_scores.delete('0.0', 'end')
+            for i in range(len(scores['Random'])):
+                msg = str(i+1) + '. ' + scores['Random'][i][0] + ': ' + scores['Random'][i][1]  + '\n'
+                screens[2].scr_scores.insert('insert', msg)
+                
             Screen.current = 2
             Screen.switch_frame()
         else:
@@ -158,6 +187,9 @@ class SelectMenu(Screen):
 #----- QUESTION MENU CLASS -----
 class QuestionMenu(tk.Frame):
     def __init__(self, parent, category):
+        self.question = questions[category]
+        self.selected_question = self.question.pop(rd.randint(0, len(questions[category])-1))
+        
         tk.Frame.__init__(self, master = parent)
         self.parent = parent
         
@@ -168,19 +200,19 @@ class QuestionMenu(tk.Frame):
         self.choice_var = tk.IntVar(self)
         self.choice_var.set(None)        
         
-        self.lbl_question = tk.Label(self, bg = HEADER_BG, fg = HEADER_FG , text = "Sample Question", font = TITLE_FONT)
+        self.lbl_question = tk.Label(self, bg = HEADER_BG, fg = HEADER_FG , text = self.selected_question[0] , font = TITLE_FONT)
         self.lbl_question.grid(row = 0, column = 0, columnspan = 3, sticky = "news")
         
-        self.rad_choice1 = tk.Radiobutton(self, fg = "#9FA09C", text = "Choice 1", font = CHOICE_FONT, variable = self.choice_var, value = 1)
+        self.rad_choice1 = tk.Radiobutton(self, fg = "#9FA09C", text = self.selected_question[1], font = CHOICE_FONT, variable = self.choice_var, value = 1)
         self.rad_choice1.grid(row = 1, column = 0, columnspan = 3, sticky = "W")
         
-        self.rad_choice2 = tk.Radiobutton(self, fg = "#9FA09C", text = "Choice 2", font = CHOICE_FONT, variable = self.choice_var, value = 2)
+        self.rad_choice2 = tk.Radiobutton(self, fg = "#9FA09C", text = self.selected_question[2], font = CHOICE_FONT, variable = self.choice_var, value = 2)
         self.rad_choice2.grid(row = 2, column = 0, columnspan = 3, sticky = "W")
         
-        self.rad_choice3 = tk.Radiobutton(self, fg = "#9FA09C", text = "Choice 3", font = CHOICE_FONT, variable = self.choice_var, value = 3)
+        self.rad_choice3 = tk.Radiobutton(self, fg = "#9FA09C", text = self.selected_question[3], font = CHOICE_FONT, variable = self.choice_var, value = 3)
         self.rad_choice3.grid(row = 3, column = 0, columnspan = 3, sticky = "W")
         
-        self.rad_choice4 = tk.Radiobutton(self, fg = "#9FA09C", text = "Choice 4", font = CHOICE_FONT, variable = self.choice_var, value = 4)
+        self.rad_choice4 = tk.Radiobutton(self, fg = "#9FA09C", text = self.selected_question[4], font = CHOICE_FONT, variable = self.choice_var, value = 4)
         self.rad_choice4.grid(row = 4, column = 0, columnspan = 3, sticky = "W")
         
         self.btn_quit = tk.Button(self, bg = "red", text = "QUIT", font = BUTTON_FONT, command = self.quit)
@@ -193,7 +225,11 @@ class QuestionMenu(tk.Frame):
         self.parent.destroy()
     
     def submit(self):
-        messagebox.showwarning("WIP", "Submit WIP")
+        if self.choice_var.get() == self.selected_question[5]:
+            messagebox.showinfo(message = "CORRECT")
+        else:
+            messagebox.showwarning(message = "INCORRECT")
+        self.parent.destroy()
 
 #----- SCORE MENU CLASS -----
 class ScoreMenu(Screen):
@@ -225,10 +261,18 @@ class ScoreMenu(Screen):
         
 #---------- MAIN ----------
 if __name__ == "__main__":
-    games = {}
+    questions = {}
+    datafile = open("trivia_questions.pickle", "rb")
+    questions = pk.load(datafile)
+    datafile.close()
+    
+    scores = {}
+    datafile = open("trivia_scores.pickle", "rb")
+    scores = pk.load(datafile)
+    datafile.close()
+    
     root = tk.Tk()
     root.title("Trivia Game")
-    
     screens = [MainMenu(), SelectMenu(), ScoreMenu()]
     
     screens[0].grid(row = 0, column = 0, sticky = "news")
