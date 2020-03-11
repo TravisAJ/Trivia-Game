@@ -15,7 +15,7 @@ questions = {"Gaming":[['Which year did Super Mario Bros release in North Americ
              "History" :[['Question 1', 'a1', 'a2', 'a3', 'a4', 1], ['Question 2', 'a1', 'a2', 'a3', 'a4', 4]]
              }
 
-scores = { "Gaming" : [['Name', 'Score'], ['Name', 'Score'], ['Name', 'Score']],
+scores = { "Gaming" : [['Christian', '9']],
            "History" : [['Name2', 'Score']],
            "Geography" : [['Name3', 'Score']],
            "Music" : [['Name4', 'Score']],

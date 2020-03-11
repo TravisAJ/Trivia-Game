@@ -183,22 +183,40 @@ class SelectMenu(Screen):
     def go_back(self):
         Screen.current = 0
         Screen.switch_frame()
+        
+#----- NAME ENTRY CLASS -----
+class NameEntry(tk.Frame):
+    def __init__(self, parent, score):
+        tk.Frame.__init__(self, master = parent)
+        
+        msg = "Your Score Is: " + str(score) + ". What is your name?" 
+        self.lbl_score = tk.Label(self, text = msg, font = TITLE_FONT)
+        self.lbl_score.grid(row = 0, column = 0)
+        
+        self.ent_name = tk.Entry(self, font = CHOICE_FONT)
+        self.ent_name.grid(row = 1, column = 0)
+        
+        self.btn_submit(self, text = "Submit")
+        self.btn_submit.grid(row = 2, column = 0)
 
 #----- QUESTION MENU CLASS -----
 class QuestionMenu(tk.Frame):
     def __init__(self, parent, category):
-        self.question = questions[category]
-        self.selected_question = self.question.pop(rd.randint(0, len(questions[category])-1))
-        
         tk.Frame.__init__(self, master = parent)
-        self.parent = parent
-        
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
-        self.grid_columnconfigure(2, weight=1)
+        self.grid_columnconfigure(2, weight=1)        
         
+        self.question = questions[category]
+        self.selected_question = self.question.pop(rd.randint(0, len(questions[category])-1))
+        self.score = 0
+        self.question_number = 1
+        
+        self.parent = parent
+        self.category = category
+
         self.choice_var = tk.IntVar(self)
-        self.choice_var.set(None)        
+        self.choice_var.set(0)        
         
         self.lbl_question = tk.Label(self, bg = HEADER_BG, fg = HEADER_FG , text = self.selected_question[0] , font = TITLE_FONT)
         self.lbl_question.grid(row = 0, column = 0, columnspan = 3, sticky = "news")
@@ -226,10 +244,36 @@ class QuestionMenu(tk.Frame):
     
     def submit(self):
         if self.choice_var.get() == self.selected_question[5]:
-            messagebox.showinfo(message = "CORRECT")
+            self.score += 1
+            messagebox.showinfo(message = "Correct, Current Score: " + str(self.score))
+            if not len(self.question) == 0:
+                self.selected_question = self.question.pop(rd.randint(0, len(questions[self.category])-1))
+                self.update()
+            else:
+                messagebox.showinfo(message = "All Questions Answered")
+                self.parent.destroy()     
+        elif self.choice_var.get() == 0:
+            messagebox.showerror(message = "ERROR: Please select an answer")
         else:
-            messagebox.showwarning(message = "INCORRECT")
-        self.parent.destroy()
+            messagebox.showinfo(message = "Incorrect, Current Score: " + str(self.score))  
+            if not len(self.question) == 0:
+                self.selected_question = self.question.pop(rd.randint(0, len(questions[self.category])-1))
+                self.update()
+            else:
+                messagebox.showinfo(message = "All Questions Answered")
+                self.parent.destroy()            
+            
+    def update(self):
+        self.lbl_question.configure(text = self.selected_question[0])
+        self.rad_choice1.configure(text = self.selected_question[1])
+        self.rad_choice2.configure(text = self.selected_question[2])
+        self.rad_choice3.configure(text = self.selected_question[3])
+        self.rad_choice4.configure(text = self.selected_question[4])
+        
+        self.question_number += 1
+        msg = "Question " + str(self.question_number)
+        self.parent.title(msg)
+        self.choice_var.set(0)        
 
 #----- SCORE MENU CLASS -----
 class ScoreMenu(Screen):
