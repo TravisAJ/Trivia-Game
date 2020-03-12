@@ -187,7 +187,10 @@ class SelectMenu(Screen):
         
 #----- NAME ENTRY CLASS -----
 class NameEntry(tk.Frame):
-    def __init__(self, parent, score):
+    def __init__(self, parent, category, score):
+        
+        self.score = score
+        self.parent = parent
         tk.Frame.__init__(self, master = parent)
         
         msg = "Your Score Is: " + str(score) + ". What is your name?" 
@@ -199,7 +202,12 @@ class NameEntry(tk.Frame):
         
         self.btn_submit = tk.Button(self, text = "Submit", font = BUTTON_FONT)
         self.btn_submit.grid(row = 2, column = 0)
-
+        
+    def submit_score():
+        
+        self.score
+        name = self.ent_name.get()
+        scores[self.
 #----- QUESTION MENU CLASS -----
 class QuestionMenu(tk.Frame):
     def __init__(self, parent, category):
@@ -269,7 +277,7 @@ class QuestionMenu(tk.Frame):
             else:
                 popup = tk.Tk()
                 popup.title("NEW HIGH SCORE")
-                frm_highscore = NameEntry(popup, self.score)
+                frm_highscore = NameEntry(popup, self.category, self.score)
                 frm_highscore.grid(row = 0, column = 0)                     
                 self.parent.destroy()            
             
