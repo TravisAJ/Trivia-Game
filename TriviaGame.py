@@ -191,6 +191,7 @@ class NameEntry(tk.Frame):
         
         self.score = score
         self.parent = parent
+        self.category = category
         tk.Frame.__init__(self, master = parent)
         
         msg = "Your Score Is: " + str(score) + ". What is your name?" 
@@ -200,14 +201,14 @@ class NameEntry(tk.Frame):
         self.ent_name = tk.Entry(self, font = CHOICE_FONT)
         self.ent_name.grid(row = 1, column = 0)
         
-        self.btn_submit = tk.Button(self, text = "Submit", font = BUTTON_FONT)
+        self.btn_submit = tk.Button(self, text = "Submit", font = BUTTON_FONT, command = self.submit_score)
         self.btn_submit.grid(row = 2, column = 0)
         
     def submit_score():
-        
-        self.score
         name = self.ent_name.get()
-        scores[self.
+        scores[self.category].append([name, self.score])
+        messagebox.showinfo("Success", "Score submitted!")
+        self.parent.destroy()
 #----- QUESTION MENU CLASS -----
 class QuestionMenu(tk.Frame):
     def __init__(self, parent, category):
