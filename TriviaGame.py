@@ -197,7 +197,7 @@ class NameEntry(tk.Frame):
         self.ent_name = tk.Entry(self, font = CHOICE_FONT)
         self.ent_name.grid(row = 1, column = 0)
         
-        self.btn_submit(self, text = "Submit")
+        self.btn_submit = tk.Button(self, text = "Submit", font = BUTTON_FONT)
         self.btn_submit.grid(row = 2, column = 0)
 
 #----- QUESTION MENU CLASS -----
@@ -254,16 +254,10 @@ class QuestionMenu(tk.Frame):
                 self.selected_question = self.question.pop(rd.randint(0, len(self.question)-1))
                 self.update()
             else:
-                if self.score == 10:
-                    messagebox.showinfo("WOW", "You got a perfect score!")
-                elif self.score == 0:
-                    messagebox.showwarning("Uh...", "You could use some practice.")                 
-                else:
-                    messagebox.showinfo("Done", "You got " + self.score)
                 popup = tk.Tk()
                 popup.title("NEW HIGH SCORE")
-                frm_question = QuestionMenu(popup, "History")
-                frm_question.grid(row = 0, column = 0)                
+                frm_highscore = NameEntry(popup, self.score)
+                frm_highscore.grid(row = 0, column = 0)                
                 self.parent.destroy()     
         elif self.choice_var.get() == 0:
             messagebox.showerror(message = "ERROR: Please select an answer")
@@ -273,12 +267,10 @@ class QuestionMenu(tk.Frame):
                 self.selected_question = self.question.pop(rd.randint(0, len(self.question)-1))
                 self.update()
             else:
-                if self.score == 10:
-                    messagebox.showinfo("WOW", "You got a perfect score!")
-                elif self.score == 0:
-                    messagebox.showwarning("Uh...", "You could use some practice.")                
-                else:
-                    messagebox.showinfo("Done", "You got " + self.score)
+                popup = tk.Tk()
+                popup.title("NEW HIGH SCORE")
+                frm_highscore = NameEntry(popup, self.score)
+                frm_highscore.grid(row = 0, column = 0)                     
                 self.parent.destroy()            
             
     def update(self):
@@ -309,10 +301,10 @@ class ScoreMenu(Screen):
         self.scr_scores.grid(row = 1, column = 0, columnspan = 3) 
         
         self.btn_back = tk.Button(self, text = "BACK", bg ="red", font = BUTTON_FONT, command = self.back)
-        self.btn_back.grid(row = 2, column = 0, sticky="news")
+        self.btn_back.grid(row = 2, column = 0, sticky = "news")
         
         self.btn_clear = tk.Button(self, text = "CLEAR", bg = "orange", font = BUTTON_FONT, command = self.clear)
-        self.btn_clear.grid(row = 2, column = 2, sticky="news")
+        self.btn_clear.grid(row = 2, column = 2, sticky = "news")
         
     def back(self):
         Screen.current = 1
