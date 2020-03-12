@@ -99,7 +99,6 @@ class SelectMenu(Screen):
             popup.title("Question 1")
             frm_question = QuestionMenu(popup, "History")
             frm_question.grid(row = 0, column = 0)
-            
         elif Screen.option == "score":
             screens[2].scr_scores.delete('0.0', 'end')
             for i in range(len(scores['History'])):
@@ -141,7 +140,6 @@ class SelectMenu(Screen):
             for i in range(len(scores['Music'])):
                 msg = str(i+1) + '. ' + scores['Music'][i][0] + ': ' + scores['Music'][i][1]  +'\n'
                 screens[2].scr_scores.insert('insert', msg)
-                
             Screen.current = 2
             Screen.switch_frame()
         else:
@@ -154,13 +152,14 @@ class SelectMenu(Screen):
             frm_question = QuestionMenu(popup, "Gaming")
             frm_question.grid(row = 0, column = 0)
         elif Screen.option == "score":
-            screens[2].scr_scores.delete('0.0', 'end')
-            for i in range(len(scores['Gaming'])):
-                msg = str(i+1) + '. ' + scores['Gaming'][i][0] + ': ' + scores['Gaming'][i][1]  + '\n'
-                screens[2].scr_scores.insert('insert', msg)
-            Screen.category = "Gaming"
-           
-            Screen.current = 2    
+            print(len(scores["Gaming"]))
+            if len(scores["Gaming"]) != 0:
+                screens[2].scr_scores.delete('0.0', 'end')
+                for i in range(len(scores['Gaming'])):
+                    msg = str(i+1) + '. ' + scores['Gaming'][i][0] + ': ' + scores['Gaming'][i][1]  + '\n'
+                    screens[2].scr_scores.insert('insert', msg)
+                Screen.category = "Gaming"
+            Screen.current = 2
             Screen.switch_frame()
         else:
             messagebox.showerror("ERROR", "Something went wrong")
@@ -261,6 +260,10 @@ class QuestionMenu(tk.Frame):
                     messagebox.showwarning("Uh...", "You could use some practice.")                 
                 else:
                     messagebox.showinfo("Done", "You got " + self.score)
+                popup = tk.Tk()
+                popup.title("NEW HIGH SCORE")
+                frm_question = QuestionMenu(popup, "History")
+                frm_question.grid(row = 0, column = 0)                
                 self.parent.destroy()     
         elif self.choice_var.get() == 0:
             messagebox.showerror(message = "ERROR: Please select an answer")
@@ -316,8 +319,7 @@ class ScoreMenu(Screen):
         Screen.switch_frame()
         
     def clear(self):
-        for score in scores[Screen.category]:
-            score.pop()
+        scores[Screen.category] =[]
         self.scr_scores.delete('0.0', "end")
         messagebox.showwarning("Success", "Successfully Cleared!")
         
