@@ -105,6 +105,7 @@ class SelectMenu(Screen):
             for i in range(len(scores['History'])):
                 msg = str(i+1) + '. ' + scores['History'][i][0] + ': ' + scores['History'][i][1] + "\n" 
                 screens[2].scr_scores.insert('insert', msg)
+            Screen.category = "History"
                 
             Screen.current = 2
             Screen.switch_frame()
@@ -157,6 +158,7 @@ class SelectMenu(Screen):
             for i in range(len(scores['Gaming'])):
                 msg = str(i+1) + '. ' + scores['Gaming'][i][0] + ': ' + scores['Gaming'][i][1]  + '\n'
                 screens[2].scr_scores.insert('insert', msg)
+            Screen.category = "Gaming"
            
             Screen.current = 2    
             Screen.switch_frame()
@@ -207,8 +209,11 @@ class QuestionMenu(tk.Frame):
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=1)        
         
-        self.question = questions[category]
-        self.selected_question = self.question.pop(rd.randint(0, len(questions[category])-1))
+        self.question = []
+        for cpyquestion in questions[category]:
+            self.question.append(cpyquestion)
+
+        self.selected_question = self.question.pop(rd.randint(0, len(self.question)-1))
         self.score = 0
         self.question_number = 1
         
@@ -247,20 +252,30 @@ class QuestionMenu(tk.Frame):
             self.score += 1
             messagebox.showinfo(message = "Correct, Current Score: " + str(self.score))
             if not len(self.question) == 0:
-                self.selected_question = self.question.pop(rd.randint(0, len(questions[self.category])-1))
+                self.selected_question = self.question.pop(rd.randint(0, len(self.question)-1))
                 self.update()
             else:
-                messagebox.showinfo(message = "All Questions Answered")
+                if self.score == 10:
+                    messagebox.showinfo("WOW", "You got a perfect score!")
+                elif self.score == 0:
+                    messagebox.showwarning("Uh...", "You could use some practice.")                 
+                else:
+                    messagebox.showinfo("Done", "You got " + self.score)
                 self.parent.destroy()     
         elif self.choice_var.get() == 0:
             messagebox.showerror(message = "ERROR: Please select an answer")
         else:
             messagebox.showinfo(message = "Incorrect, Current Score: " + str(self.score))  
             if not len(self.question) == 0:
-                self.selected_question = self.question.pop(rd.randint(0, len(questions[self.category])-1))
+                self.selected_question = self.question.pop(rd.randint(0, len(self.question)-1))
                 self.update()
             else:
-                messagebox.showinfo(message = "All Questions Answered")
+                if self.score == 10:
+                    messagebox.showinfo("WOW", "You got a perfect score!")
+                elif self.score == 0:
+                    messagebox.showwarning("Uh...", "You could use some practice.")                
+                else:
+                    messagebox.showinfo("Done", "You got " + self.score)
                 self.parent.destroy()            
             
     def update(self):
@@ -301,7 +316,10 @@ class ScoreMenu(Screen):
         Screen.switch_frame()
         
     def clear(self):
-        messagebox.showwarning("WIP", "Clear WIP")
+        for score in scores[Screen.category]:
+            score.pop()
+        self.scr_scores.delete('0.0', "end")
+        messagebox.showwarning("Success", "Successfully Cleared!")
         
 #---------- MAIN ----------
 if __name__ == "__main__":

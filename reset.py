@@ -6,13 +6,14 @@ questions = {"Gaming":[['Which year did Super Mario Bros release in North Americ
                   ['Minecraft was made by which company?', 'Mojang', 'Microsoft', 'Disney', 'Nintendo', 1],
                   ['What is the main character in Tomb Raider?', 'Chun-Li', 'Sonya Blade', 'Lara Croft', 'Samus Aran', 3],
                   ['How many chacters are there in Super Smash Bros Ult. (Excluding DLC)?', '69', '74', '26', '58', 2],
-                  ['What is the "worst" Nintendo 64 game?', 'Superman 64', 'Super Mario 64', 'Donkey Kong 64', 'Doom 64', 1],
+                  ['What is the best selling Nintendo 64 game?', 'Super Mario 64', 'Superman 64', 'Banjo and Kazooie', 'Mario Party', 1],
                   ['How many times has Kingdom Hearts 2 been re-release?', '2', '8', '1', '4', 4],
-                  ['Who is the main artist in the Beat Saber OST?', 'Pegboard Nerds', 'Jaroslav Beck', 'Taylor Swift', 'Boom Kitty', 2],
+                  ['Who is the main artist in the Beat Saber OST?', 'Aero Chord', 'Jaroslav Beck', 'Taylor Swift', 'Keanu Reeves', 2],
                   ['What was the first LEGO Video Game?', 'Lego Island', 'Lego Star Wars', 'Lego Batman', 'Lego Indiana Jones', 1],
                   ['What was the first offical video game?', 'Donkey Kong', 'Pong', 'Pacman', 'Mario Bros', 2],
                   ['What color is Inky in Pacman?', 'Orange', 'Red', 'Blue', 'Pink', 3]],
-             "History" :[['Question 1', 'a1', 'a2', 'a3', 'a4', 1], ['Question 2', 'a1', 'a2', 'a3', 'a4', 4]]
+             "History" :[['Question 1', 'a1', 'a2', 'a3', 'a4', 1],
+                         ['Question 2', 'a1', 'a2', 'a3', 'a4', 4]]
              }
 
 scores = { "Gaming" : [['Christian', '9']],
