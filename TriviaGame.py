@@ -94,96 +94,83 @@ class SelectMenu(Screen):
         self.btn_back.grid(row = 4, column = 0, columnspan = 2, sticky = "news")
         
     def go_history(self):
+        Screen.category = "History"
+    
         if Screen.option == "play":
-            popup = tk.Tk()
-            popup.title("Question 1")
-            frm_question = QuestionMenu(popup, "History")
-            frm_question.grid(row = 0, column = 0)
+            self.screen_play()
+            
         elif Screen.option == "score":
-            screens[2].scr_scores.delete('0.0', 'end')
-            for i in range(len(scores['History'])):
-                msg = str(i+1) + '. ' + scores['History'][i][0] + ': ' + scores['History'][i][1] + "\n" 
-                screens[2].scr_scores.insert('insert', msg)
-            Screen.category = "History"
-                
-            Screen.current = 2
-            Screen.switch_frame()
+            self.screen_score()
+
         else:
             messagebox.showerror("ERROR", "Something went wrong")
     
     def go_geography(self):
+        Screen.category = "Geography"
+        
         if Screen.option == "play":
-            popup = tk.Tk()
-            popup.title("Question 1")
-            frm_question = QuestionMenu(popup, "Geography")
-            frm_question.grid(row = 0, column = 0)
+            self.screen_play()
             
         elif Screen.option == "score":
-            screens[2].scr_scores.delete('0.0', 'end')
-            for i in range(len(scores['Geography'])):
-                msg = str(i+1) + '. ' + scores['Geography'][i][0] + ': ' + scores['Geography'][i][1]  + "\n" 
-                screens[2].scr_scores.insert('insert', msg)            
+            self.screen_score()
             
-            Screen.current = 2
-            Screen.switch_frame()
         else:
             messagebox.showerror("ERROR", "Something went wrong")
     
     def go_music(self):
+        Screen.category = "Music"
+          
         if Screen.option == "play":
-            popup = tk.Tk()
-            popup.title("Question 1")
-            frm_question = QuestionMenu(popup, "Music")
-            frm_question.grid(row = 0, column = 0)
+            self.screen_play()
+            
         elif Screen.option == "score":
-            screens[2].scr_scores.delete('0.0', 'end')
-            for i in range(len(scores['Music'])):
-                msg = str(i+1) + '. ' + scores['Music'][i][0] + ': ' + scores['Music'][i][1]  +'\n'
-                screens[2].scr_scores.insert('insert', msg)
-            Screen.current = 2
-            Screen.switch_frame()
+            self.screen_score()
+            
         else:
             messagebox.showerror("ERROR", "Something went wrong")
     
     def go_gaming(self):
+        Screen.category = "Gaming"
+        
         if Screen.option == "play":
-            popup = tk.Tk()
-            popup.title("Question 1")
-            frm_question = QuestionMenu(popup, "Gaming")
-            frm_question.grid(row = 0, column = 0)
+            self.screen_play()
+            
         elif Screen.option == "score":
-            print(len(scores["Gaming"]))
-            if len(scores["Gaming"]) != 0:
-                screens[2].scr_scores.delete('0.0', 'end')
-                for i in range(len(scores['Gaming'])):
-                    msg = str(i+1) + '. ' + scores['Gaming'][i][0] + ': ' + scores['Gaming'][i][1]  + '\n'
-                    screens[2].scr_scores.insert('insert', msg)
-                Screen.category = "Gaming"
-            Screen.current = 2
-            Screen.switch_frame()
+            self.screen_score()
+            
         else:
             messagebox.showerror("ERROR", "Something went wrong")
     
     def go_random(self):
+        Screen.category = ""
+        
         if Screen.option == "play":
-            popup = tk.Tk()
-            popup.title("Question 1")
-            frm_question = QuestionMenu(popup, "Random")
-            frm_question.grid(row = 0, column = 0)
+            self.screen_play()
+        
         elif Screen.option == "score":
-            screens[2].scr_scores.delete('0.0', 'end')
-            for i in range(len(scores['Random'])):
-                msg = str(i+1) + '. ' + scores['Random'][i][0] + ': ' + scores['Random'][i][1]  + '\n'
-                screens[2].scr_scores.insert('insert', msg)
+            self.screen_score()
                 
-            Screen.current = 2
-            Screen.switch_frame()
         else:
             messagebox.showerror("ERROR", "Something went wrong")
     
     def go_back(self):
         Screen.current = 0
         Screen.switch_frame()
+        
+    def screen_score(self):
+        if len(scores[Screen.category]) != 0:
+            screens[2].scr_scores.delete('0.0', 'end')
+            for i in range(len(scores[Screen.category])):
+                msg = str(i+1) + '. ' + scores[Screen.category][i][0] + ': ' + scores[Screen.category][i][1]  + '\n'
+                screens[2].scr_scores.insert('insert', msg)
+        Screen.current = 2
+        Screen.switch_frame()   
+        
+    def screen_play(self):
+        popup = tk.Tk()
+        popup.title("Question 1")
+        frm_question = QuestionMenu(popup, Screen.category)
+        frm_question.grid(row = 0, column = 0)
         
 #----- NAME ENTRY CLASS -----
 class NameEntry(tk.Frame):
@@ -204,11 +191,15 @@ class NameEntry(tk.Frame):
         self.btn_submit = tk.Button(self, text = "Submit", font = BUTTON_FONT, command = self.submit_score)
         self.btn_submit.grid(row = 2, column = 0)
         
-    def submit_score():
+    def submit_score(self):
         name = self.ent_name.get()
-        scores[self.category].append([name, self.score])
+        scores[self.category].append([name, str(self.score)])
+        datafile = open("trivia_scores.pickle", "wb")
+        pk.dump(scores, datafile)
+        datafile.close()        
         messagebox.showinfo("Success", "Score submitted!")
         self.parent.destroy()
+        
 #----- QUESTION MENU CLASS -----
 class QuestionMenu(tk.Frame):
     def __init__(self, parent, category):
@@ -258,20 +249,19 @@ class QuestionMenu(tk.Frame):
     def submit(self):
         if self.choice_var.get() == self.selected_question[5]:
             self.score += 1
-            messagebox.showinfo(message = "Correct, Current Score: " + str(self.score))
             if not len(self.question) == 0:
                 self.selected_question = self.question.pop(rd.randint(0, len(self.question)-1))
                 self.update()
             else:
                 popup = tk.Tk()
                 popup.title("NEW HIGH SCORE")
-                frm_highscore = NameEntry(popup, self.score)
+                frm_highscore = NameEntry(popup, self.category, self.score)
                 frm_highscore.grid(row = 0, column = 0)                
-                self.parent.destroy()     
+                self.parent.destroy()
+            messagebox.showinfo(message = "Correct, Current Score: " + str(self.score))
         elif self.choice_var.get() == 0:
             messagebox.showerror(message = "ERROR: Please select an answer")
-        else:
-            messagebox.showinfo(message = "Incorrect, Current Score: " + str(self.score))  
+        else:  
             if not len(self.question) == 0:
                 self.selected_question = self.question.pop(rd.randint(0, len(self.question)-1))
                 self.update()
@@ -280,7 +270,8 @@ class QuestionMenu(tk.Frame):
                 popup.title("NEW HIGH SCORE")
                 frm_highscore = NameEntry(popup, self.category, self.score)
                 frm_highscore.grid(row = 0, column = 0)                     
-                self.parent.destroy()            
+                self.parent.destroy()
+            messagebox.showinfo(message = "Incorrect, Current Score: " + str(self.score))
             
     def update(self):
         self.lbl_question.configure(text = self.selected_question[0])
@@ -316,13 +307,19 @@ class ScoreMenu(Screen):
         self.btn_clear.grid(row = 2, column = 2, sticky = "news")
         
     def back(self):
+        self.scr_scores.delete('0.0', "end")
         Screen.current = 1
         Screen.switch_frame()
         
     def clear(self):
-        scores[Screen.category] =[]
-        self.scr_scores.delete('0.0', "end")
-        messagebox.showwarning("Success", "Successfully Cleared!")
+        confirm = messagebox.askyesno("Clear", "Are you sure you want to clear?")
+        if confirm:
+            scores[Screen.category] = []
+            self.scr_scores.delete('0.0', "end")
+            datafile = open("trivia_scores.pickle", "wb")
+            pk.dump(scores, datafile)
+            datafile.close()             
+            messagebox.showinfo("Success", "Scores Cleared!")
         
 #---------- MAIN ----------
 if __name__ == "__main__":

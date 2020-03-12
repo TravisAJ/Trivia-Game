@@ -12,15 +12,43 @@ questions = {"Gaming":[['Which year did Super Mario Bros release in North Americ
                   ['What was the first LEGO Video Game?', 'Lego Island', 'Lego Star Wars', 'Lego Batman', 'Lego Indiana Jones', 1],
                   ['What was the first offical video game?', 'Donkey Kong', 'Pong', 'Pacman', 'Mario Bros', 2],
                   ['What color is Inky in Pacman?', 'Orange', 'Red', 'Blue', 'Pink', 3]],
-             "History" :[['Question 1', 'a1', 'a2', 'a3', 'a4', 1],
-                         ['Question 2', 'a1', 'a2', 'a3', 'a4', 4]]
+             "History":[['Question 1', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 2', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 3', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 4', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 5', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 6', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 7', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 8', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 9', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 10', 'a1', 'a2', 'a3', 'a4', 4]],
+             "Music":[['Question 1', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 2', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 3', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 4', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 5', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 6', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 7', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 8', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 9', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 10', 'a1', 'a2', 'a3', 'a4', 4]],
+             "Geography":[['Question 1', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 2', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 3', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 4', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 5', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 6', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 7', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 8', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 9', 'a1', 'a2', 'a3', 'a4', 4],
+                         ['Question 10', 'a1', 'a2', 'a3', 'a4', 4]]
              }
 
-scores = { "Gaming" : [['Christian', '9']],
-           "History" : [['Name2', 'Score']],
-           "Geography" : [['Name3', 'Score']],
-           "Music" : [['Name4', 'Score']],
-           "Random" : [['Name5', 'Score']]
+scores = { "Gaming" : [['Gamer', '6']],
+           "History" : [['Donald Trump', '6']],
+           "Geography" : [['Christopher Columbus', '3s']],
+           "Music" : [['Beethoven', '6']],
+           "Random" : [['Name5', '2']]
            }
 
 LABEL_FONT = ("Times New Roman", 24)
